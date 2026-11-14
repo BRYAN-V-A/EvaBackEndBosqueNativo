@@ -62,13 +62,16 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     },
-    "negocio": {
+        "negocio": {
         "ENGINE": "django.db.backends.oracle",
-        "NAME": os.getenv("DB_SERVICE", ""),
+        # Easy Connect: servidor:puerto/servicio. HOST y PORT van vacios porque ya
+        # estan dentro de NAME (si se separan, Django trata NAME como SID y Oracle
+        # responde DPY-6003).
+        "NAME": f"{os.getenv('DB_HOST', 'db.freesql.com')}:{os.getenv('DB_PORT', '1521')}/{os.getenv('DB_SERVICE', '')}",
         "USER": os.getenv("DB_USER", ""),
         "PASSWORD": os.getenv("DB_PASSWORD", ""),
-        "HOST": os.getenv("DB_HOST", "db.freesql.com"),
-        "PORT": os.getenv("DB_PORT", "1521"),
+        "HOST": "",
+        "PORT": "",
     },
 }
 
