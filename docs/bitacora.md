@@ -14,12 +14,12 @@ Si se usó IA, anotar qué se le preguntó y qué se cambió del resultado.
 - **Uso de IA (qué pregunté y qué cambié):** Usé Claude para armar el modelo ER, el diccionario de datos, los scripts SQL, la guía de seguimiento en Excel y el README, y para diagnosticar el error DPY-6003. 
 - **Qué cambié o revisé yo:** Verifiqué por mi cuenta el resultado de lo que generó la IA. Ejecuté los scripts SQL en mi esquema de FreeSQL y comprobé que se crearon las 5 tablas y que el subtotal virtual de detalle_servicio se calcula correctamente. Probé la conexión de Django con Oracle y, al aparecer el error DPY-6003, apliqué la corrección en settings.py y confirmé que la conexión funcionaba. Además, limpié mi esquema de las tablas de la actividad anterior, configuré mi propio .env con mis credenciales y organicé las carpetas docs/ y sql/ del repositorio.
 
-### Brayan Vallejos
-- **Qué hice:**
-- **En qué archivos:**
-- **Problema que tuve y cómo lo resolví:**
-- **Qué haré la semana siguiente:**
-- **Uso de IA (qué pregunté y qué cambié):**
+### Bryan Vallejos
+- **Qué hice:** Empece creando el repositorio y agregando a mis compañeros y al profesor, luego hice el BackEnd creando el entorno, bosuqe_nativo_project, reservas, requirements y .env.example, tambien por parte de todos hicimos la Base de Datos de FreeSQL para que la de todos sea igual. Basicamente hice la estructura que tendra el proyecto.
+- **En qué archivos:** Todos en la carpeta BackEnd que tambien fue creada por mi, por fuera no modifique ni agregue nada.
+- **Problema que tuve y cómo lo resolví:** Como fui el primero en empezar todo solo cree los archivos y no podia probar nada no tuve errores de terminal ni nada pero el que veo es que no cree el gitignore al inicio por lo que se quedo el pychache que mas tarde cosas que faltaban como eso se corrigio por mis compañeros 
+- **Qué haré la semana siguiente:** Falta hablar para dividirnos algunas cosas pero lo mas probable es seguir con los archivos del BackEnd como el CRUD y puede que algo mas.
+- **Uso de IA (qué pregunté y qué cambié):** Use Claude como tipo guia pero principalmente era seguir pasos que ya habiamos hecho con django en otros proyectos entonces no tuve que preguntar ni modificar nada extra y use gemini para conseguir el script de la base de datos.
 
 ### Bastián Saez
 - **Qué hice:** Revisé el modelo de datos y mi tabla, servicios_extra. Ejecuté los scripts SQL en mi esquema de FreeSQL y comprobé que se crearon las 5 tablas. Preparé mi computador, creé mi .env y probé la conexión con Django, tambien revise y modifique el archivo de 'requirements.txt' para colocar las versiones especificas de lo que estamos utilizando para llevar a cabo el proyecto. 
