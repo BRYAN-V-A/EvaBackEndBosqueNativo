@@ -11,7 +11,8 @@ Si se usó IA, anotar qué se le preguntó y qué se cambió del resultado.
 - **En qué archivos:** docs/modelo_er.png, docs/diccionario_datos.md, docs/seguimiento_semanal.md, docs/Guia_Proyecto_Cabanas.xlsx, docs/capturas/user_tables_carla.png, sql/01_crear_tablas.sql, sql/02_datos_ejemplo.sql, BackEnd/bosque_nativo_project/settings.py.
 - **Problema que tuve y cómo lo resolví:** Al probar la conexión con Django me dio DPY-6003 (SID "26ai_un3c1" no registrado). Con HOST y PORT separados en settings.py, Django usa NAME como SID. Lo corregí dejando HOST y PORT vacíos y poniendo "servidor:puerto/servicio" (Easy Connect) en NAME. Después la conexión funcionó.
 - **Qué haré la semana siguiente:** Programar las capas hexagonales de huespedes y cabanas: entidad de dominio, puerto, excepciones, casos de uso CRUD, modelo con managed = False y repositorio.
-- **Uso de IA (qué pregunté y qué cambié):** Usé Claude para armar el modelo ER, el diccionario de datos, los scripts SQL, la guía de seguimiento en Excel y el README, y para diagnosticar el error DPY-6003. **Qué cambié o revisé yo:** Verifiqué por mi cuenta el resultado de lo que generó la IA. Ejecuté los scripts SQL en mi esquema de FreeSQL y comprobé que se crearon las 5 tablas y que el subtotal virtual de detalle_servicio se calcula correctamente. Probé la conexión de Django con Oracle y, al aparecer el error DPY-6003, apliqué la corrección en settings.py y confirmé que la conexión funcionaba. Además, limpié mi esquema de las tablas de la actividad anterior, configuré mi propio .env con mis credenciales y organicé las carpetas docs/ y sql/ del repositorio.
+- **Uso de IA (qué pregunté y qué cambié):** Usé Claude para armar el modelo ER, el diccionario de datos, los scripts SQL, la guía de seguimiento en Excel y el README, y para diagnosticar el error DPY-6003. 
+- **Qué cambié o revisé yo:** Verifiqué por mi cuenta el resultado de lo que generó la IA. Ejecuté los scripts SQL en mi esquema de FreeSQL y comprobé que se crearon las 5 tablas y que el subtotal virtual de detalle_servicio se calcula correctamente. Probé la conexión de Django con Oracle y, al aparecer el error DPY-6003, apliqué la corrección en settings.py y confirmé que la conexión funcionaba. Además, limpié mi esquema de las tablas de la actividad anterior, configuré mi propio .env con mis credenciales y organicé las carpetas docs/ y sql/ del repositorio.
 
 ### Brayan Vallejos
 - **Qué hice:**
@@ -21,10 +22,11 @@ Si se usó IA, anotar qué se le preguntó y qué se cambió del resultado.
 - **Uso de IA (qué pregunté y qué cambié):**
 
 ### Bastián Saez
-- **Qué hice:**
-- **En qué archivos:**
-- **Problema que tuve y cómo lo resolví:**
-- **Qué haré la semana siguiente:**
-- **Uso de IA (qué pregunté y qué cambié):**
+- **Qué hice:** Revisé el modelo de datos y mi tabla, servicios_extra. Ejecuté los scripts SQL en mi esquema de FreeSQL y comprobé que se crearon las 5 tablas. Preparé mi computador, creé mi .env y probé la conexión con Django, tambien revise y modifique el archivo de 'requirements.txt' para colocar las versiones especificas de lo que estamos utilizando para llevar a cabo el proyecto. 
+- **En qué archivos:** requirements.txt sql/01_crear_tablas.sql, sql/02_datos_ejemplo.sql, README.md, docs/anexo_a.md y mi captura en docs/capturas/.
+- **Problema que tuve y cómo lo resolví:** En la terminal no se reconocían git ni python. Instalé los dos y reinicié VS Code, y después funcionaron. 
+- **Qué haré la semana siguiente:** Aun por organizar con mi equipo de trabajo, me acoplare a lo que me pidan y lo que se necesite realizar.
+- **Uso de IA (qué pregunté y qué cambié):** Usé Claude para entender mas sobre el proyecto semana 1, arreglar el error de git y python y verificar si la estructura del proyecto estaba bien hecha en base a lo que la rubrica requeria. Revisé lo que me dio con el PDF y con los scripts de Carla, y no usé su settings.py porque tenía un error de conexión.
+- **Extra:** Con la ayuda y guia de Bryan pude resolver los problemas y enrredos que tuve para poder desarrollar mis partes del proyecto, por mi parte analice las respuestas de la ia verifique punto por punto tomandome mi tiempo y verifique el orden y la estructura del proyecto organizandolo en base a los que solicita en la rubrica. 
 
 ## Semana 2 · Capas hexagonales de las entidades maestras
