@@ -17,3 +17,5 @@ OJO (trabajo en equipo): cada integrante agrega SUS lineas de import.
 from .huesped import HuespedModel
 from .cabana import CabanaModel
 from .servicio_extra import ServicioExtraModel
+from .reserva import ReservaModel
+from .detalle_servicio import DetalleServicioModel
