@@ -9,7 +9,7 @@ OJO (trabajo en equipo): este archivo lo completa Bastian al final; aca
 van solo las funciones de huespedes y cabanas.
 """
 
-from .repositories import DjangoHuespedRepository, DjangoCabanaRepository
+from .repositories import DjangoHuespedRepository, DjangoCabanaRepository, DjangoServicioExtraRepository
 
 
 def get_huesped_repository():
@@ -18,3 +18,8 @@ def get_huesped_repository():
 
 def get_cabana_repository():
     return DjangoCabanaRepository()
+
+
+
+def get_servicio_extra_repository():
+    return DjangoServicioExtraRepository()

@@ -64,6 +64,10 @@ class ServicioEnUsoError(ReglaNegocioError):
     pass
 
 
+class ServicioInvalidoError(ReglaNegocioError):
+    pass
+
+
 # --- Reservas
 class ReservaNoEncontradaError(NoEncontradoError):
     pass

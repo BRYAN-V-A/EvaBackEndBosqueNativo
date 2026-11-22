@@ -10,12 +10,15 @@ from reservas.application.exceptions import (
 )
 
 
-def _validar_precio(precio: Decimal) -> None:
-    """Segundo nivel de validacion (el primero es el CHECK de Oracle):
-    un dato invalido da un error de negocio claro y no un error 500."""
+def _validar(nombre: str, precio: Decimal) -> None:
+    if not nombre or not nombre.strip():
+        raise ServicioInvalidoError("El nombre es obligatorio")
+    if len(nombre) > 60:
+        raise ServicioInvalidoError("El nombre no puede superar los 60 caracteres")
     if precio < 0:
         raise ServicioInvalidoError("El precio no puede ser negativo")
-
+    if precio > Decimal("99999999.99"):
+        raise ServicioInvalidoError("El precio es demasiado alto")
 
 class ListarServiciosUseCase:
     def __init__(self, repo: ServicioExtraRepository):
@@ -42,7 +45,7 @@ class CrearServicioUseCase:
 
     def ejecutar(self, datos: dict) -> ServicioExtra:
         precio = Decimal(str(datos["precio"]))
-        _validar_precio(precio)
+        _validar(datos["nombre"], precio)
         if self.repo.existe_nombre(datos["nombre"]):
             raise ServicioDuplicadoError(f"Ya existe un servicio llamado {datos['nombre']}")
         return self.repo.guardar(ServicioExtra(nombre=datos["nombre"], precio=precio))

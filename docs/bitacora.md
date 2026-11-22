@@ -30,3 +30,15 @@ Si se usó IA, anotar qué se le preguntó y qué se cambió del resultado.
 - **Extra:** Con la ayuda y guia de Bryan pude resolver los problemas y enrredos que tuve para poder desarrollar mis partes del proyecto, por mi parte analice las respuestas de la ia verifique punto por punto tomandome mi tiempo y verifique el orden y la estructura del proyecto organizandolo en base a los que solicita en la rubrica. 
 
 ## Semana 2 · Capas hexagonales de las entidades maestras
+
+### Bastián Saez – Semana 2
+- **Qué hice:** Dejé listas las capas de servicios_extra: entidad, puerto, casos de uso (crear, listar, obtener, actualizar y eliminar), modelo con managed = False y repositorio. Los casos de uso controlan nombre duplicado, precio negativo y «no encontrado», y no dejan borrar un servicio que ya se usó en una reserva. Agregué mis líneas a los archivos compartidos (__init__.py de cada capa y di.py) y agregué ServicioInvalidoError en exceptions.py.
+- **En qué archivos:** servicio_extra.py en domain/entities, domain/repositories, infrastructure/models e infrastructure/repositories, servicio_extra_use_cases.py en application/use_cases, application/exceptions.py, infrastructure/di.py y los __init__.py de cada capa.
+- **Problema que tuve y cómo lo resolví:**
+  - Al juntar mis archivos con los de Carla quedaron marcas de conflicto de Git (<<<<<<<) en los __init__.py. Dejé las líneas de los dos y borré las marcas.
+  - El archivo del puerto en domain/repositories tenía código de otra capa y daba un error de import circular. Lo reemplacé por la clase abstracta correcta.
+  - Faltaba mi bloque de imports en use_cases/__init__.py, y daba NameError.
+  - No tenía el entorno virtual activado (No module named 'django') ni el .env (KeyError: 'SECRET_KEY').
+  - Me daba ORA-01017: en el .env la contraseña del esquema estaba en SECRET_KEY y DB_PASSWORD tenía otra. Las corregí, y aprendí que check --database negocio no prueba la conexión real.
+- **Qué haré la semana siguiente:** Adaptarme al trabajo de mis compañeros y poder completar las tareas que se me asignen para los avances de la semana 3.
+- **Uso de IA (qué pregunté y qué cambié):** Usé Claude para generar las capas de servicios_extra y para encontrar la causa de los errores de arriba. Leí el código para entender cómo viaja una petición (caso de uso, puerto, repositorio, modelo, Oracle). Lo que cambié: el puerto, los __init__.py, el .env y di.py y correji el error de BackEnd/reservas/domain/repositories/servicio_extra_repository.py ya que generaba conflictos en la ejecucion del codigo

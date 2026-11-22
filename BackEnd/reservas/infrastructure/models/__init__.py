@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 """
 Modelos de Django ORM: un archivo por tabla. OJO: esto NO es el
 dominio, es el detalle de persistencia - la UNICA parte del proyecto
@@ -17,6 +16,4 @@ OJO (trabajo en equipo): cada integrante agrega SUS lineas de import.
 
 from .huesped import HuespedModel
 from .cabana import CabanaModel
-=======
 from .servicio_extra import ServicioExtraModel
->>>>>>> Stashed changes

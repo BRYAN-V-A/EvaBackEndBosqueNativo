@@ -17,3 +17,7 @@ from .cabana_use_cases import (
     ListarCabanasUseCase, ObtenerCabanaUseCase, CrearCabanaUseCase,
     ActualizarCabanaUseCase, EliminarCabanaUseCase,
 )
+from .servicio_extra_use_cases import (
+    ListarServiciosUseCase, ObtenerServicioUseCase, CrearServicioUseCase,
+    ActualizarServicioUseCase, EliminarServicioUseCase,
+)
