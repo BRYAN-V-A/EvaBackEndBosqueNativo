@@ -60,7 +60,7 @@ class ActualizarServicioUseCase:
         servicio.nombre = datos.get("nombre", servicio.nombre)
         servicio.precio = Decimal(str(datos.get("precio", servicio.precio)))
 
-        _validar_precio(servicio.precio)
+        _validar(servicio.nombre, servicio.precio)
         if self.repo.existe_nombre(servicio.nombre, excluir_id=servicio_id):
             raise ServicioDuplicadoError(f"Ya existe un servicio llamado {servicio.nombre}")
         return self.repo.guardar(servicio)
