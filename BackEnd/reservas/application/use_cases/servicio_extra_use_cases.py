@@ -1,0 +1,76 @@
+"""Casos de uso de ServicioExtra."""
+
+from decimal import Decimal
+from typing import List
+from reservas.domain.entities import ServicioExtra
+from reservas.domain.repositories import ServicioExtraRepository
+from reservas.application.exceptions import (
+    ServicioNoEncontradoError, ServicioDuplicadoError, ServicioEnUsoError,
+    ServicioInvalidoError,
+)
+
+
+def _validar_precio(precio: Decimal) -> None:
+    """Segundo nivel de validacion (el primero es el CHECK de Oracle):
+    un dato invalido da un error de negocio claro y no un error 500."""
+    if precio < 0:
+        raise ServicioInvalidoError("El precio no puede ser negativo")
+
+
+class ListarServiciosUseCase:
+    def __init__(self, repo: ServicioExtraRepository):
+        self.repo = repo
+
+    def ejecutar(self) -> List[ServicioExtra]:
+        return self.repo.listar()
+
+
+class ObtenerServicioUseCase:
+    def __init__(self, repo: ServicioExtraRepository):
+        self.repo = repo
+
+    def ejecutar(self, servicio_id: int) -> ServicioExtra:
+        servicio = self.repo.obtener_por_id(servicio_id)
+        if servicio is None:
+            raise ServicioNoEncontradoError(f"No existe un servicio con id {servicio_id}")
+        return servicio
+
+
+class CrearServicioUseCase:
+    def __init__(self, repo: ServicioExtraRepository):
+        self.repo = repo
+
+    def ejecutar(self, datos: dict) -> ServicioExtra:
+        precio = Decimal(str(datos["precio"]))
+        _validar_precio(precio)
+        if self.repo.existe_nombre(datos["nombre"]):
+            raise ServicioDuplicadoError(f"Ya existe un servicio llamado {datos['nombre']}")
+        return self.repo.guardar(ServicioExtra(nombre=datos["nombre"], precio=precio))
+
+
+class ActualizarServicioUseCase:
+    def __init__(self, repo: ServicioExtraRepository):
+        self.repo = repo
+
+    def ejecutar(self, servicio_id: int, datos: dict) -> ServicioExtra:
+        servicio = ObtenerServicioUseCase(self.repo).ejecutar(servicio_id)
+        servicio.nombre = datos.get("nombre", servicio.nombre)
+        servicio.precio = Decimal(str(datos.get("precio", servicio.precio)))
+
+        _validar_precio(servicio.precio)
+        if self.repo.existe_nombre(servicio.nombre, excluir_id=servicio_id):
+            raise ServicioDuplicadoError(f"Ya existe un servicio llamado {servicio.nombre}")
+        return self.repo.guardar(servicio)
+
+
+class EliminarServicioUseCase:
+    def __init__(self, repo: ServicioExtraRepository):
+        self.repo = repo
+
+    def ejecutar(self, servicio_id: int) -> None:
+        ObtenerServicioUseCase(self.repo).ejecutar(servicio_id)
+        if self.repo.esta_en_uso(servicio_id):
+            raise ServicioEnUsoError(
+                "No se puede eliminar un servicio que ya fue contratado en una reserva"
+            )
+        self.repo.eliminar(servicio_id)

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 """
 ADAPTADORES SECUNDARIOS (Driven Adapters)
 -------------------------------------------
@@ -12,3 +13,6 @@ OJO (trabajo en equipo): cada integrante agrega SUS lineas de import.
 
 from .huesped_repository import DjangoHuespedRepository
 from .cabana_repository import DjangoCabanaRepository
+=======
+from .servicio_extra_repository import DjangoServicioExtraRepository
+>>>>>>> Stashed changes

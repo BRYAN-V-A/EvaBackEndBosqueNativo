@@ -14,3 +14,4 @@ lineas de import; si ya hay lineas de otro integrante, no las borres.
 
 from .huesped import Huesped
 from .cabana import Cabana
+from .servicio_extra import ServicioExtra
