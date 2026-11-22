@@ -42,3 +42,10 @@ Si se usó IA, anotar qué se le preguntó y qué se cambió del resultado.
   - Me daba ORA-01017: en el .env la contraseña del esquema estaba en SECRET_KEY y DB_PASSWORD tenía otra. Las corregí, y aprendí que check --database negocio no prueba la conexión real.
 - **Qué haré la semana siguiente:** Adaptarme al trabajo de mis compañeros y poder completar las tareas que se me asignen para los avances de la semana 3.
 - **Uso de IA (qué pregunté y qué cambié):** Usé Claude para generar las capas de servicios_extra y para encontrar la causa de los errores de arriba. Leí el código para entender cómo viaja una petición (caso de uso, puerto, repositorio, modelo, Oracle). Lo que cambié: el puerto, los __init__.py, el .env y di.py y correji el error de BackEnd/reservas/domain/repositories/servicio_extra_repository.py ya que generaba conflictos en la ejecucion del codigo
+
+### Bryan Vallejos
+- **Qué hice:** Cree las entidades y los puertos junto con los juntos con los modelos y sus repositorios que fueron previamente definidos con mis compañeros que serian de mi parte del trabajo y al finalizar eso se creo un  .py para probar mi parte igual que mis compañeros y asi verificar si funciona con exepciones por si faltaba algo de alguien.
+- **En qué archivos:** En la carpeta de reservas, agregando los archivos dentro de domain/entities, domain/repositories,  y tambien en infrastructure/models, infrastructure/repositories todos vinculados con su init y el tambien agregando mi parte al di.py de infrastructure y por ultimo la un .py con la prueba de que esta correcto que todos hicimos.
+- **Problema que tuve y cómo lo resolví:** No tuve problemas ni a la hora de crear los archivos ni de hacer las pruebas.
+- **Qué haré la semana siguiente:** Aun falta por ver con mis compañeros para dividir el trabajo correctamente pero posiblemente me toque hacer algunos CRUD y algo mas que pense que era para la semana anterior.
+- **Uso de IA (qué pregunté y qué cambié):** Mas que nada Claude para hacer como una guia de que sigue o que falta para que la semana este completa pero al no tener errores no pregunte nada.
