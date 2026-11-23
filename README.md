@@ -1,69 +1,113 @@
-# Bosque Nativo – Reservas de cabañas (G08)
+# Cabañas «Bosque Nativo» · API de reservas
 
-Backend con arquitectura hexagonal (Django 5.2, Oracle 26ai en FreeSQL, Django REST Framework) y frontend React + Vite.
-Proyecto final de Back End, INACAP 2026.
+Proyecto Final de Back End (INACAP): API hexagonal con Django, Oracle (FreeSQL) y React.
+Grupo G08 · Reservas de cabañas con servicios adicionales (tinaja, desayuno, leña).
 
-**Equipo:** Carla Caro, Bryan Vallejos, Bastián Saez.
+## Integrantes y entidades a cargo
 
-## Problema
-Un complejo turístico arrienda cabañas por noche y ofrece servicios adicionales (tinaja, desayuno, leña) dentro de la reserva.
-Entidades: `huespedes`, `cabanas`, `servicios_extra`, `reservas` (entidad principal) y `detalle_servicio`.
+| Integrante      | Entidades                             |
+|-----------------|---------------------------------------|
+| Carla Caro      | huespedes, cabanas                    |
+| Bryan Vallejos  | reservas, detalle_servicio            |
+| Bastián Saez    | servicios_extra, reporte de ocupación,| 
+|                 |panel de administración                |
 
-## Reglas de negocio (viven en los casos de uso, `application/`)
-- **R1** Una cabaña no puede tener dos reservas no canceladas con fechas que se crucen.
-- **R2** El número de personas no supera la capacidad de la cabaña.
-- **R3** Total = noches × valor_noche + servicios; mínimo 2 noches.
+## Requisitos
 
-Estados de la reserva: `pendiente → confirmada → finalizada` y `pendiente / confirmada → cancelada`.
+- Python 3.12 o superior (con `python.exe` en el PATH)
+- Visual Studio Code
+- GitHub Desktop
+- Una cuenta en [freesql.com](https://freesql.com) (cada integrante usa su propio esquema)
+- Postman
+- Node.js 20 o superior (solo para el frontend)
 
-## Roles
-- **administrador:** todo.
-- **recepcionista:** crea y confirma reservas; no cancela confirmadas ni cambia tarifas.
+## Instalación (backEnd)
 
-Usuarios de prueba por rol: *(se documentan en la semana 3)*
-
-## Reporte
-Ocupación por cabaña en un mes (noches ocupadas / noches del mes).
-
-## Estructura del repositorio
-```
-BackEnd/     proyecto Django (bosque_nativo_project, app reservas) y sql/
-frontend/    React + Vite (semana 6)
-docs/        modelo_er.png, diccionario_datos.md, bitacora.md, anexo_a.md, capturas/
-README.md
-```
-
-## Instalación desde cero
-Requisitos: Python 3.12 o superior, Git y una cuenta en FreeSQL (Oracle 26ai).
-
-1. **Tablas en Oracle.** En la hoja de trabajo de FreeSQL, ejecutar como script (F5), en este orden:
-   `BackEnd/sql/01_crear_tablas.sql` y luego `BackEnd/sql/02_datos_ejemplo.sql`.
-   Comprobar con `SELECT table_name FROM user_tables;` (deben salir 5 tablas).
-2. **Entorno virtual** (desde la carpeta `BackEnd/`):
+1. Clonar el repositorio y abrir la carpeta en Visual Studio Code.
+2. Crear y activar el entorno virtual:
    ```
    python -m venv entorno
    .\entorno\Scripts\Activate.ps1
+   ```
+3. Entrar a la carpeta del proyecto e instalar dependencias:
+   ```
+   cd BackEnd
    pip install -r requirements.txt
    ```
-3. **Credenciales.** Copiar `BackEnd/.env.example` a `BackEnd/.env` y completar los valores propios
-   (cada integrante usa su esquema de FreeSQL). `DB_SERVICE` lleva solo el nombre del servicio; `settings.py` arma la
-   conexión «servidor:puerto/servicio» (Easy Connect). El `.env` nunca se sube al repositorio.
-   Para generar la `SECRET_KEY`:
+4. Crear las tablas en TU esquema de FreeSQL ejecutando como script, en este orden:
+   `sql/01_crear_tablas.sql` y `sql/02_datos_ejemplo.sql`.
+5. Copiar `.env.example` a `.env` y completarlo con los datos de TU esquema
+   (host, servicio, usuario y contraseña de FreeSQL, más una SECRET_KEY propia).
+   El archivo `.env` nunca se sube al repositorio.
+6. Probar la conexión a Oracle (desde `BackEnd`):
    ```
-   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   python manage.py check
+   python manage.py shell -c "from django.db import connections; connections['negocio'].ensure_connection(); print('Conexion a Oracle OK')"
    ```
-4. **Probar la conexión a Oracle:**
-   ```
-   python manage.py check --database negocio
-   ```
-   Debe responder `System check identified no issues (0 silenced).`
+   Debe responder `Conexion a Oracle OK`.
 
-## Dos bases de datos
-- `default` (SQLite): tablas internas de Django (usuarios, grupos, sesiones, tokens).
-- `negocio` (Oracle): solo las tablas del negocio. Un router envía allí los modelos de la app `reservas`.
-  Los modelos usan `managed = False`: las tablas las crea el script SQL, no las migraciones.
+La conexión a Oracle usa el formato `host:puerto/servicio` dentro de `NAME`
+(ver `bosque_nativo_project/settings.py`); `HOST` y `PORT` quedan vacíos.
+
+## Estructura del repositorio
+
+```
+BackEnd/     proyecto Django (bosque_nativo_project), app reservas y carpeta sql/
+frontend/    React + Vite (semana 6)
+docs/        modelo ER, diccionario de datos, bitácora, colección de Postman, capturas
+```
+
+## Arquitectura hexagonal (app `reservas`)
+
+```
+reservas/
+  domain/            núcleo: sin Django ni base de datos
+    entities/          una entidad (dataclass) por tabla
+    repositories/      puertos: interfaces abstractas de cada repositorio
+  application/       lógica de negocio
+    exceptions.py      excepciones de negocio
+    use_cases/         casos de uso (reciben el puerto por constructor)
+  infrastructure/    detalles técnicos
+    models/            modelos de Django (managed = False, tablas ya creadas en Oracle)
+    repositories/      adaptadores: implementan los puertos con Django ORM
+    di.py              contenedor simple que entrega cada repositorio
+  adaptadores/       serializers y vistas de la API (semana 5)
+```
+
+**Regla de dependencia:** las dependencias apuntan hacia adentro.
+`infrastructure` conoce a `application` y `domain`; `application` solo conoce a `domain`;
+`domain` no importa nada de Django ni de las otras capas.
+
+Hay dos bases de datos: `default` (SQLite, tablas internas de Django: usuarios, tokens)
+y `negocio` (Oracle, tablas del negocio). Un router (`routers.py`) decide a cuál va cada modelo.
+
+## Reglas de negocio
+
+- **R1:** una cabaña no puede tener dos reservas no canceladas con fechas que se crucen.
+- **R2:** el número de personas no supera la capacidad de la cabaña.
+- **R3:** total = noches × valor_noche + servicios; mínimo 2 noches.
+
+Estados de la reserva: pendiente → confirmada → finalizada · pendiente o confirmada → cancelada.
+
+## Probar las capas (semana 2)
+
+Cada integrante tiene su propio script de comprobación en la carpeta `BackEnd`.
+Se ejecutan desde `BackEnd`, con el entorno activado:
+
+| Integrante      | Entidades que prueba       | Comando                                                                              |
+|-----------------|----------------------------|--------------------------------------------------------------------------------------|
+| Carla Caro      | huespedes, cabanas         | `python manage.py shell -c "exec(open('probar_capas.py', encoding='utf-8').read())"` |
+| Bryan Vallejos | reservas, detalle_servicio | `python manage.py shell -c "exec(open('probar_capas_bryan.py', encoding='utf-8').read())"` |
+| Bastián Saez    | servicios_extra            | `python manage.py shell -c "exec(open('probar_capas_bastian.py', encoding='utf-8').read())"` |
+
+Cada script crea datos de prueba, comprueba duplicados, validaciones y reglas de su entidad,
+y borra lo que creó, así que la base queda igual que antes.
+
+## Usuarios de prueba
+
+(Se completan en la semana 3, cuando existan los roles administrador y recepcionista.)
 
 ## Avance por semana
-- **Semana 1:** modelo de datos, diccionario, scripts SQL, repositorio, proyecto Django con dos bases y router, conexión a Oracle.
 
-Seguimiento semanal: `docs/seguimiento_semanal.md` y `docs/Guia_Proyecto_Cabanas.xlsx`.
+- **Semana 1:** modelo ER, diccionario de datos, scripts SQL, repositorio, proyecto Django y conexión a Oracle.
+- **Semana 2:** capas hexagonales de las entidades maestras (huespedes, cabanas y servicios_extra) y modelos de reservas y detalle_servicio: dominio, puertos, excepciones, casos de uso CRUD, modelos y repositorios, contenedor de dependencias y un script de comprobación por integrante.

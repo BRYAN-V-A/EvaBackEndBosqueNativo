@@ -1,11 +1,7 @@
 # Bitácora · Cabañas «Bosque Nativo» (G08)
 
-Una entrada por semana y por integrante. Debe coincidir con los commits del repositorio.
-Si se usó IA, anotar qué se le preguntó y qué se cambió del resultado.
-
 ## Semana 1 · Diseño, base de datos y conexión
 
-### Carla Caro
 ### Carla Caro
 - **Qué hice:** Preparé mi computador (Python, VS Code, GitHub Desktop), cloné el repositorio, creé el entorno virtual y mi .env. Borré las tablas de la actividad anterior de mi esquema de FreeSQL, ejecuté los scripts sql/01_crear_tablas.sql y sql/02_datos_ejemplo.sql, y comprobé en user_tables que quedaron las 5 tablas y que el subtotal de detalle_servicio se calcula bien. Probé la conexión desde Django. En el reparto me quedé con huespedes y cabanas.
 - **En qué archivos:** docs/modelo_er.png, docs/diccionario_datos.md, docs/seguimiento_semanal.md, docs/Guia_Proyecto_Cabanas.xlsx, docs/capturas/user_tables_carla.png, sql/01_crear_tablas.sql, sql/02_datos_ejemplo.sql, BackEnd/bosque_nativo_project/settings.py.
@@ -49,3 +45,10 @@ Si se usó IA, anotar qué se le preguntó y qué se cambió del resultado.
 - **Problema que tuve y cómo lo resolví:** No tuve problemas ni a la hora de crear los archivos ni de hacer las pruebas.
 - **Qué haré la semana siguiente:** Aun falta por ver con mis compañeros para dividir el trabajo correctamente pero posiblemente me toque hacer algunos CRUD y algo mas que pense que era para la semana anterior.
 - **Uso de IA (qué pregunté y qué cambié):** Mas que nada Claude para hacer como una guia de que sigue o que falta para que la semana este completa pero al no tener errores no pregunte nada.
+
+### Carla Caro
+- **Qué hice:** Programé las capas hexagonales de huespedes y cabanas. En el dominio, las entidades `Huesped` y `Cabana` (esta última con los métodos `admite()` y `costo_estadia()`, que se usarán en las reglas R2 y R3) y sus puertos (`HuespedRepository` y `CabanaRepository`). En application, el archivo de excepciones y los casos de uso listar, obtener, crear, actualizar y eliminar de cada entidad, con control de duplicados (documento y código) y borrado protegido cuando hay reservas. En infrastructure, los modelos con `managed = False`, los repositorios y el contenedor `di.py`. Probé las capas contra Oracle con el script `probar_capas.py` (creó y borró datos de prueba, detectó duplicados y validó la capacidad). Después de subir todo, comprobé que el proyecto sigue funcionando.
+- **En qué archivos:** `BackEnd/reservas/application/exceptions.py`, `application/use_cases/huesped_use_cases.py`, `application/use_cases/cabana_use_cases.py`, `domain/entities/huesped.py`, `domain/entities/cabana.py`, `domain/repositories/huesped_repository.py`, `domain/repositories/cabana_repository.py`, `infrastructure/models/huesped.py`, `infrastructure/models/cabana.py`, `infrastructure/repositories/huesped_repository.py`, `infrastructure/repositories/cabana_repository.py`, `infrastructure/di.py`, los `__init__.py` de cada carpeta y `BackEnd/probar_capas.py`.
+- **Problema que tuve y cómo lo resolví:** Al abrir de nuevo el repositorio desde GitHub Desktop en Visual Studio Code tuve que reactivar el entorno virtual y comprobar que el `.env` y las carpetas seguían en su lugar. Revisé que las carpetas de las capas estuvieran vacías antes de copiar mis archivos, para no pisar trabajo de otros. En la terminal `git` no se reconocía, así que hice los commits y el push desde GitHub Desktop. El borrado protegido no se podía probar hasta que existiera el modelo de reservas de Brayan; quedó marcado como pendiente en el script y lo probamos cuando se subió.
+- **Qué haré la semana siguiente:** completare cada tarea según lo que nos repartamos la siguiente semana. Apoyar en las reglas de negocio de la reserva (capacidad con `admite()` y total con `costo_estadia()`), y en el login, logout y roles.
+- **Uso de IA (qué pregunté y qué cambié):** Usé Claude para generar el código base de las capas de huespedes y cabanas siguiendo el manual hexagonal, junto con el script de prueba. Le pedí también las capas de Brayan y de Bastián como punto de partida, que cada uno revisó y subió con su cuenta. Qué cambié o revisé yo: leí cada archivo, ejecuté el script de prueba contra mi esquema de FreeSQL, y fui capaz de explicar para qué sirve `managed = False` y cómo funciona el borrado protegido a demas de encargarme de repartir cada parte y dar recuerdo de todos los pendientes de la semana. Complete la guia semanal de pendientes a medida que avanzamos y actualice el readme a demas de preparar la pregunta tipo de la semana.
