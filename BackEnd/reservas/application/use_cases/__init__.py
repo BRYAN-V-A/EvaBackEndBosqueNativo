@@ -21,3 +21,7 @@ from .servicio_extra_use_cases import (
     ListarServiciosUseCase, ObtenerServicioUseCase, CrearServicioUseCase,
     ActualizarServicioUseCase, EliminarServicioUseCase,
 )
+from .reserva_use_cases import (
+    ListarReservasUseCase, ObtenerReservaUseCase, CrearReservaUseCase,
+    CambiarEstadoReservaUseCase, EliminarReservaUseCase,
+)
